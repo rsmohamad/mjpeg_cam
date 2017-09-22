@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>mjpeg_cam</name>
+  <version>0.1.0</version>
+  <description>A usb webcam driver for grabbing mjpeg frames</description>
+  <maintainer email="rsmohamad@ust.hk">Randitya Setyawan Mohamad</maintainer>
+  <license>BSD</license>
+  <url type="website"></url>
+  <url type="bugtracker"></url>
+  <author email="rsmohamad@ust.hk">Randitya Setyawan Mohamad</author>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+</package>
