@@ -42,8 +42,8 @@ include_directories(
 
 ## Declare a cpp library
 add_library(${PROJECT_NAME}_core
-            src/webcam.cpp
-            include/mjpeg_cam/webcam.h
+            src/UsbCamera.cpp
+            include/mjpeg_cam/UsbCamera.hpp
             )
 
 ## Declare cpp executables
@@ -87,19 +87,3 @@ install(
         DIRECTORY doc
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
-
-#############
-## Testing ##
-#############
-
-if (CATKIN_ENABLE_TESTING)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
-    ## Add gtest based cpp test target and link libraries
-    catkin_add_gtest(${PROJECT_NAME}-test
-                     test/test_ros_package_template.cpp
-                     test/AlgorithmTest.cpp)
-endif ()
-
-if (TARGET ${PROJECT_NAME}-test)
-    target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME}_core)
-endif ()

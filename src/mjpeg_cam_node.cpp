@@ -8,5 +8,7 @@ int main(int argc, char **argv)
 
     mjpeg_cam::MjpegCam mjpegCam(nodeHandle);
     mjpegCam.spin();
+
+    ros::shutdown();
     return 0;
 }

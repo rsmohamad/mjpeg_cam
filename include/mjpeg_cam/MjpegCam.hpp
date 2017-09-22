@@ -1,7 +1,7 @@
 #pragma once
 
 #include "mjpeg_cam/MjpegCam.hpp"
-#include "mjpeg_cam/webcam.h"
+#include "mjpeg_cam/UsbCamera.hpp"
 
 // ROS
 #include <ros/ros.h>
@@ -34,11 +34,17 @@ public:
      */
     void spin();
 
+
+
 private:
     /*
      * Reads a single frame from the camera and publish to topic.
      */
     bool readAndPublishImage();
+
+    void readParameters();
+
+    bool setCameraParams();
 
     //! ROS node handle.
     ros::NodeHandle &nodeHandle_;
@@ -46,10 +52,23 @@ private:
     //! ROS Image Publisher
     ros::Publisher imagePub_;
 
-    //! Webcam Object
-    Webcam *cam;
+    //! Camera Object
+    UsbCamera *cam;
 
     unsigned int sequence;
+
+    // Parameters
+    std::string device_name;
+    int width;
+    int height;
+    int framerate;
+    int exposure;
+    int brightness;
+    int gain;
+    int white_balance;
+    bool autoexposure;
+    bool autofocus;
+    bool autowb;
 };
 
 } /* namespace */

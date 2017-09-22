@@ -1,0 +1,14 @@
+<launch>
+
+  <node name="mjpeg_cam" pkg="mjpeg_cam" type="mjpeg_cam" output="screen" >
+    <param name="device_name" value="/dev/video0" />
+    <param name="width" value="1280" />
+    <param name="height" value="720" />
+    <param name="framerate" value="60" />
+    <param name="exposure" value="70" />
+    <param name="brightness" value="100" />
+    <param name="autoexposure" value="false" />
+  </node>
+
+ </launch>
+
