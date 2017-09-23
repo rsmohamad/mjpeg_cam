@@ -1,7 +1,8 @@
-# Package Name
+# mjpeg_cam
 
 ## Overview
 
+This package captures MJPEG video stream from usb cameras. Unlike the `usb_cam` package, this driver copies the JPEG data to the `CompressedImage` message directly. There is no extra overhead from decoding and re-encoding the image. So, only compressed images are published. This driver is suitable for applications where the images are captured by a low power device (e.g. the Raspberry Pi) and sent to a remote node for further processing. 
 
 ## Installation
 
@@ -10,88 +11,66 @@
 #### Dependencies
 
 - [Robot Operating System (ROS)](http://wiki.ros.org) (middleware for robotics),
-- [Eigen] (linear algebra library)
-
-		sudo apt-get install libeigen3-dev
-
-
+- libv4l-dev (for accessing the usb camera)
+    ```$xslt
+    sudo apt-get install libv4l-dev
+    ```
+- v4l-utils (for changing camera settings)
+    ```$xslt
+    sudo apt-get install v4l-utils
+    ```
 #### Building
 
-To build from source, clone the latest version from this repository into your catkin workspace and compile the package using
-
-	cd catkin_workspace/src
-	git clone https://github.com/ethz-asl/ros_package_template.git
-	cd ../
-	catkin_make
-
-
-### Unit Tests
-
-Run the unit tests with
-
-	catkin_make run_tests_ros_package_template run_tests_ros_package_template
-
+To build from source, clone the latest version from this repository into your catkin workspace and compile the package using `catkin_make`.
 
 ## Usage
 
-Describe the quickest way to run this software, for example:
-
 Run the main node with
 
-	roslaunch ros_package_template ros_package_template.launch
+	roslaunch mjpeg_cam mjpeg_cam_run.launch
 
 
 ## Nodes
 
-### ros_package_template
+### mjpeg_cam
 
-Reads temperature measurements and computed the average.
-
-
-#### Subscribed Topics
-
-* **`/temperature`** ([sensor_msgs/Temperature])
-
-	The temperature measurements from which the average is computed.
-
+Captures video stream from a usb camera and publishes the images.
 
 #### Published Topics
 
-...
-
-
-#### Services
-
-* **`get_average`** ([std_srvs/Trigger])
-
-	Returns information about the current average. For example, you can trigger the computation from the console with
-
-		rosservice call /ros_package_template/get_average
-
+* **`image/compressed`** (sensor_msgs/CompressedImage, default: "/mjpeg_cam/image/compressed')
 
 #### Parameters
 
-* **`subscriber_topic`** (string, default: "/temperature")
+* **`device_name`** (string, default: "/dev/video0")
 
-	The name of the input topic.
+	The name of the usb camera device.
 
-* **`cache_size`** (int, default: 200, min: 0, max: 1000)
+* **`width`** (int, default: 640)
 
-	The size of the cache.
+	The width of the image.
+	
+* **`height`** (int, default: 480)
+    
+ 	The height of the image.
 
+* **`framerate`** (int, default: 30)
+    
+ 	The framerate of the video.
 
-### NODE_B_NAME
+* **`exposure`** (int, default: 128)
+    
+ 	The exposure of the camera.
 
-...
+* **`brightness`** (int, default: 128)
+    
+ 	The brightness of the image.
 
-
-## Bugs & Feature Requests
-
-Please report bugs and request features using the [Issue Tracker](https://github.com/ethz-asl/ros_best_practices/issues).
+* **`autoexposure`** (bool, default: true)
+    
+ 	Turns auto exposure on/off.
+ 	
+The `exposure`, `brightness`, and `autoexposure` settings are dynamically reconfigurable. Simply run `rosrun rqt_reconfigure rqt_reconfigure` and select the node name (default: "mjpeg_cam") to access these settings.
 
 
 [ROS]: http://www.ros.org
-[rviz]: http://wiki.ros.org/rviz
-[Eigen]: http://eigen.tuxfamily.org
-[std_srvs/Trigger]: http://docs.ros.org/api/std_srvs/html/srv/Trigger.html
-[sensor_msgs/Temperature]: http://docs.ros.org/api/sensor_msgs/html/msg/Temperature.html

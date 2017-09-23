@@ -17,8 +17,16 @@ MjpegCam::MjpegCam(ros::NodeHandle &nodeHandle)
 {
     readParameters();
     imagePub_ = nodeHandle_.advertise<sensor_msgs::CompressedImage>("image/compressed", 1);
+
     cam = new UsbCamera(device_name, width, height);
-    setCameraParams();
+
+    try {
+        setCameraParams();
+    }
+    catch (const char * e){
+        std::cout << e << std::endl;
+    }
+
     ROS_INFO("Successfully launched node.");
 }
 
@@ -33,7 +41,6 @@ bool MjpegCam::readAndPublishImage()
         int length;
         char *image = cam->grab_image(length);
         sensor_msgs::CompressedImage msg;
-
         msg.header.frame_id = "usb_cam";
         msg.header.seq = sequence++;
         msg.header.stamp = ros::Time::now();
@@ -41,6 +48,7 @@ bool MjpegCam::readAndPublishImage()
         msg.data.resize(length);
         std::copy(image, image + length, msg.data.begin());
         imagePub_.publish(msg);
+        //std::cout << "Image size in kB: " << length/1000 << std::endl;
 
         return true;
     }
@@ -68,13 +76,10 @@ void MjpegCam::readParameters()
     nodeHandle_.param("width", width, 640);
     nodeHandle_.param("height", height, 480);
     nodeHandle_.param("framerate", framerate, 30);
-    nodeHandle_.param("exposure", exposure, 128);
-    nodeHandle_.param("brightness", brightness, 128);
-    nodeHandle_.param("autoexposure", autoexposure, true);
 
-    clamp(exposure, 0, 255);
-    clamp(brightness, 0, 255);
-    clamp(white_balance, 0, 6000);
+    nodeHandle_.param("exposure", exposure, 128);
+    nodeHandle_.param("autoexposure", autoexposure, true);
+    nodeHandle_.param("brightness", brightness, 128);
 }
 
 bool MjpegCam::setCameraParams()
@@ -82,28 +87,28 @@ bool MjpegCam::setCameraParams()
     if (cam == 0)
         return false;
 
+    clamp(exposure, 0, 255);
+    clamp(brightness, 0, 255);
+
     cam->set_v4l2_param("brightness", brightness);
 
-    if (!autoexposure) {
+    if (autoexposure) {
+        cam->set_v4l2_param("exposure_auto", 3);
+    }
+    else {
         cam->set_v4l2_param("exposure_auto", 1);
         cam->set_v4l2_param("exposure_absolute", exposure);
     }
-    else {
-        cam->set_v4l2_param("exposure_auto", 3);
-    }
+
 
     return true;
-
 }
+
 void MjpegCam::setDynamicParams(int exposure, int brightness, bool autoexposure)
 {
     this->exposure = exposure;
     this->brightness = brightness;
     this->autoexposure = autoexposure;
-
-    clamp(exposure, 0, 255);
-    clamp(brightness, 0, 255);
-
     setCameraParams();
 }
 

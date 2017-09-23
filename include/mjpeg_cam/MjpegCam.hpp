@@ -35,20 +35,25 @@ public:
      */
     void spin();
 
+    /*!
+     * Set parameters that can be dynamically reconfigured
+     */
     void setDynamicParams(int exposure, int brightness, bool autoexposure);
 
-
-
 private:
-    /*
+    /*!
      * Reads a single frame from the camera and publish to topic.
      */
     bool readAndPublishImage();
 
-
-
+    /*!
+     * Reads ROS parameters.
+     */
     void readParameters();
 
+    /*!
+     * Set camera parameters
+     */
     bool setCameraParams();
 
     //! ROS node handle.
@@ -59,7 +64,6 @@ private:
 
     //! Camera Object
     UsbCamera *cam;
-
     unsigned int sequence;
 
     // Parameters
@@ -69,11 +73,7 @@ private:
     int framerate;
     int exposure;
     int brightness;
-    int gain;
-    int white_balance;
     bool autoexposure;
-    bool autofocus;
-    bool autowb;
 };
 
 } /* namespace */

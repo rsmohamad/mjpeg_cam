@@ -6,7 +6,10 @@
 
 void dynamic_reconfigure_cb(mjpeg_cam::mjpeg_camConfig &config, uint32_t level, mjpeg_cam::MjpegCam *node)
 {
-    ROS_INFO("Reconfigure Request: %d %d", config.exposure, config.brightness);
+    ROS_INFO("Reconfigure Request: \nExposure: %d \nBrightness: %d \nAutoexposure: %s",
+             config.exposure,
+             config.brightness,
+             config.autoexposure?"True":"False");
     node->setDynamicParams(config.exposure, config.brightness, config.autoexposure);
 }
 

@@ -200,7 +200,6 @@ void UsbCamera::init_device(void)
         // VIDIO_S_FMT may change width and height
         xres = fmt.fmt.pix.width;
         yres = fmt.fmt.pix.height;
-        stride = fmt.fmt.pix.bytesperline;
     }
     else {
         // Revert to default setting

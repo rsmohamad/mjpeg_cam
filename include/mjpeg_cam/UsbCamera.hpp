@@ -35,7 +35,6 @@ private:
     struct buffer *buffers;
     size_t n_buffers;
     size_t xres, yres;
-    size_t stride;
     size_t raw_data_len;
     char *raw_data;
     const bool force_format = true;
