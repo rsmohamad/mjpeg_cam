@@ -9,6 +9,7 @@ find_package(catkin REQUIRED
              COMPONENTS
              roscpp
              sensor_msgs
+             dynamic_reconfigure
              )
 
 ###################################
@@ -20,18 +21,27 @@ find_package(catkin REQUIRED
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
+
+## Dynamic Reconfigure
+generate_dynamic_reconfigure_options(
+    cfg/mjpeg_cam.cfg
+)
+
 catkin_package(
         INCLUDE_DIRS
         include
         #  LIBRARIES
         CATKIN_DEPENDS
         sensor_msgs
+        dynamic_reconfigure
         #  DEPENDS
 )
+
 
 ###########
 ## Build ##
 ###########
+
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
@@ -53,6 +63,8 @@ add_executable(${PROJECT_NAME}
                include/mjpeg_cam/MjpegCam.hpp
                )
 
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_gencfg)
+
 ## Specify libraries to link executable targets against
 target_link_libraries(${PROJECT_NAME}_core
                       ${catkin_LIBRARIES}
@@ -61,7 +73,10 @@ target_link_libraries(${PROJECT_NAME}_core
 target_link_libraries(${PROJECT_NAME}
                       ${PROJECT_NAME}_core
                       ${catkin_LIBRARIES}
-                      )
+
+                )
+
+
 
 #############
 ## Install ##

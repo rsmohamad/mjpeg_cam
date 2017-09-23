@@ -84,14 +84,27 @@ bool MjpegCam::setCameraParams()
 
     cam->set_v4l2_param("brightness", brightness);
 
-    if (!autoexposure)
-    {
+    if (!autoexposure) {
         cam->set_v4l2_param("exposure_auto", 1);
         cam->set_v4l2_param("exposure_absolute", exposure);
+    }
+    else {
+        cam->set_v4l2_param("exposure_auto", 3);
     }
 
     return true;
 
+}
+void MjpegCam::setDynamicParams(int exposure, int brightness, bool autoexposure)
+{
+    this->exposure = exposure;
+    this->brightness = brightness;
+    this->autoexposure = autoexposure;
+
+    clamp(exposure, 0, 255);
+    clamp(brightness, 0, 255);
+
+    setCameraParams();
 }
 
 } /* namespace */

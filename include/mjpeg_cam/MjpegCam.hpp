@@ -9,6 +9,7 @@
 #include <std_srvs/Trigger.h>
 #include <sensor_msgs/CompressedImage.h>
 
+
 namespace mjpeg_cam
 {
 
@@ -34,6 +35,8 @@ public:
      */
     void spin();
 
+    void setDynamicParams(int exposure, int brightness, bool autoexposure);
+
 
 
 private:
@@ -41,6 +44,8 @@ private:
      * Reads a single frame from the camera and publish to topic.
      */
     bool readAndPublishImage();
+
+
 
     void readParameters();
 
