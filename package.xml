@@ -14,4 +14,6 @@
   <depend>roscpp</depend>
   <depend>sensor_msgs</depend>
   <depend>dynamic_reconfigure</depend>
+  <depend>libv4l-dev</depend>
+  <depend>v4l-utils</depend>
 </package>
