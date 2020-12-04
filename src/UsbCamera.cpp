@@ -247,6 +247,7 @@ void UsbCamera::stop_capturing(void)
 }
 
 // Taken from usb_cam package
+
 void UsbCamera::set_v4l2_param(const string &param, const string &value)
 {
     // build the command

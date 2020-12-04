@@ -10,7 +10,7 @@ void dynamic_reconfigure_cb(mjpeg_cam::mjpeg_camConfig &config, uint32_t level, 
              config.exposure,
              config.brightness,
              config.autoexposure?"True":"False");
-    node->setDynamicParams(config.exposure, config.brightness, config.autoexposure);
+    node->setDynamicParams(config.exposure, config.brightness, config.autoexposure, config.gamma, config.gain, config.saturation, config.contrast, config.auto_white_balance, config.white_balance);
 }
 
 int main(int argc, char **argv)

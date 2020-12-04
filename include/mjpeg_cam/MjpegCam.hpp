@@ -8,6 +8,7 @@
 #include <sensor_msgs/Temperature.h>
 #include <std_srvs/Trigger.h>
 #include <sensor_msgs/CompressedImage.h>
+#include <sensor_msgs/CameraInfo.h>
 
 
 namespace mjpeg_cam
@@ -38,7 +39,7 @@ public:
     /*!
      * Set parameters that can be dynamically reconfigured
      */
-    void setDynamicParams(int exposure, int brightness, bool autoexposure);
+    void setDynamicParams(int exposure, int brightness, bool autoexposure, int gamma, int gain, int saturation, int contrast, bool auto_white_balance, int white_balance);
 
 private:
     /*!
@@ -61,6 +62,7 @@ private:
 
     //! ROS Image Publisher
     ros::Publisher imagePub_;
+    ros::Publisher infoPub_;
 
     //! Camera Object
     UsbCamera *cam;
@@ -74,6 +76,14 @@ private:
     int exposure;
     int brightness;
     bool autoexposure;
+    int gamma;
+    int gain;
+    int saturation;
+    int contrast;
+    bool auto_white_balance;
+    int white_balance;
+    std::string camera_name;
+    std::string base_topic;
 };
 
 } /* namespace */

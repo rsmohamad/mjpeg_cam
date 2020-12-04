@@ -1,12 +1,18 @@
 <launch>
-  <node name="mjpeg_cam" pkg="mjpeg_cam" type="mjpeg_cam" output="screen" >
-    <param name="device_name" value="/dev/video0" />
-    <param name="width" value="1280" />
-    <param name="height" value="720" />
-    <param name="framerate" value="60" />
-    <param name="exposure" value="70" />
-    <param name="brightness" value="128" />
-    <param name="autoexposure" value="false" />
-  </node>
+    <arg name="camera_name" default="front_camera" />
+    <arg name="device_name" default="/dev/video0" />
+    <arg name="width" default="1280" />
+    <arg name="height" default="720" />
+    <arg name="framerate" default="60" />
+    <arg name="base_topic" default="image_raw" />
+
+    <node name="$(arg camera_name)" pkg="mjpeg_cam" type="mjpeg_cam" output="screen" >
+        <param name="camera_name" value="$(arg camera_name)" />
+        <param name="device_name" value="$(arg device_name)" />
+        <param name="width" value="$(arg width)" />
+        <param name="height" value="$(arg height)" />
+        <param name="framerate" value="$(arg framerate)" />
+        <param name="base_topc" value="$(arg base_topic)" />
+    </node>
 </launch>
 
